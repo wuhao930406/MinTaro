@@ -2,7 +2,7 @@
   "miniprogramRoot": "dist/",
   "projectname": "taro",
   "description": "物联网Iot小程序",
-  "appid": "touristappid",
+  "appid": "wxfafe4f9b7bbffd7f",
   "setting": {
     "urlCheck": true,
     "es6": false,
@@ -23,7 +23,7 @@
     "compileHotReLoad": false,
     "useMultiFrameRuntime": true,
     "useApiHook": true,
-    "useApiHostProcess": false,
+    "useApiHostProcess": true,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],

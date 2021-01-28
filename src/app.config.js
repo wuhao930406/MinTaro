@@ -1,7 +1,14 @@
 export default {
   pages: [
     'pages/index/index',
-    'pages/user/index',
+  ],
+  subpackages: [
+    {
+      "root": "subpages",
+      "pages": [
+        "detail/index"
+      ]
+    }
   ],
   window: {
     backgroundTextStyle: 'light',

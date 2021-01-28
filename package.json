@@ -26,7 +26,8 @@
     "dev:rn": "npm run build:rn -- --watch",
     "dev:qq": "npm run build:qq -- --watch",
     "dev:jd": "npm run build:jd -- --watch",
-    "dev:quickapp": "npm run build:quickapp -- --watch"
+    "dev:quickapp": "npm run build:quickapp -- --watch",
+    "watch":"set NODE_ENV=production && taro build --type weapp --watch"
   },
   "browserslist": [
     "last 3 versions",
@@ -54,14 +55,14 @@
     "@babel/core": "^7.8.0",
     "@tarojs/mini-runner": "3.0.25",
     "@tarojs/webpack-runner": "3.0.25",
+    "@types/react": "^16.0.0",
     "@types/webpack-env": "^1.13.6",
     "babel-preset-taro": "3.0.25",
     "eslint": "^6.8.0",
     "eslint-config-taro": "3.0.25",
-    "stylelint": "9.3.0",
-    "@types/react": "^16.0.0",
-    "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-import": "^2.12.0",
-    "eslint-plugin-react-hooks": "^1.6.1"
+    "eslint-plugin-react": "^7.8.2",
+    "eslint-plugin-react-hooks": "^1.6.1",
+    "stylelint": "9.3.0"
   }
 }
