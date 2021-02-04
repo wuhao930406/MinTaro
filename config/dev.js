@@ -1,6 +1,6 @@
 module.exports = {
   env: {
-    NODE_ENV: '"production"'
+    NODE_ENV: '"development"'
   },
   defineConstants: {
   },
@@ -29,14 +29,18 @@ module.exports = {
     }
   },
   mini: {},
-  proxy:{ 
-    '/api/': {
-      target: 'http://49.235.82.163:4000/mock/12/',
-      changeOrigin: true,
-      pathRewrite: { '^/api': '' },
-    },
-  },
   h5: {
-    esnextModules: ['taro-ui']
+    esnextModules: ['taro-ui'],
+    webpackChain (chain, webpack) {
+      chain.merge({
+        proxy:{ 
+          '/taro/': {
+            target: 'http://172.21.3.128:8040/',
+            changeOrigin: true,
+            pathRewrite: { '^/taro': '' },
+          },
+        },
+      })
+    }
   }
 }

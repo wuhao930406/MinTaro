@@ -6,7 +6,9 @@ export default {
     {
       "root": "subpages",
       "pages": [
-        "detail/index"
+        "detail/index",
+        "jia/index",//稼动率
+        "parameter/index"
       ]
     }
   ],

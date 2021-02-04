@@ -1,26 +1,39 @@
-let todoId = 4;
-export default {
+
+
+let theme1 = {
+  primaryColor: "#00a8ff",
+  bgclass: "bg",
+  type: "theme1",
+  textclass:"bgtext"
+}, theme2 = {
+  primaryColor: "#52ab36",
+  bgclass: "lv",
+  type: "theme2",
+  textclass:"lvtext"
+
+}
+
+const GlobalModel = {
   namespace: 'global',
-
-  state: [
-    { id: 1, text: 'Learning Javascript', completed: true },
-    { id: 2, text: 'Learning ES2016', completed: true },
-    { id: 3, text: 'Learning Remax', completed: false },
-  ],
-
-  reducers: {
-    add(state, action) {
-      return [
-        ...state,
-        {
-          id: todoId++,
-          text: action.text,
-          completed: false,
+  state: {
+    theme: theme2
+  },
+  effects: {
+    *changetheme({ payload }, { call, put, select }) {//datalist
+      let theme = yield select(state => state.global.theme);
+      yield put({
+        type: 'updateState',
+        payload: {
+          theme: theme.type == "theme1" ? theme2 : theme1
         },
-      ];
+      });
+      return true
     },
-    toggle(state, action) {
-      return state.map(todo => (todo.id === action.id ? { ...todo, completed: !todo.completed } : todo));
+  },
+  reducers: {
+    updateState(state, { payload }) {
+      return { ...state, ...payload };
     },
   },
 };
+export default GlobalModel;

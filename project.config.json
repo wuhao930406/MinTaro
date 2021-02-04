@@ -2,7 +2,7 @@
   "miniprogramRoot": "dist/",
   "projectname": "taro",
   "description": "物联网Iot小程序",
-  "appid": "wxfafe4f9b7bbffd7f",
+  "appid": "wx8b45fd25d67eb76d",
   "setting": {
     "urlCheck": true,
     "es6": false,

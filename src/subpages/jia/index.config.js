@@ -1,8 +1,7 @@
 export default {
-  navigationBarTitleText: '测试',
+  navigationBarTitleText: '全部参数',
   backgroundTextStyle: 'light',
   navigationBarBackgroundColor: '#fff',
   navigationBarTextStyle: 'black',
   navigationStyle:"custom"
-
 }
