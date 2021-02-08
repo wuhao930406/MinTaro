@@ -6,10 +6,10 @@ import { BarChart, LineChart } from '../../components/charts'
 import './index.less'
 import { connect } from 'remax-dva';
 import { useRequest } from 'ahooks';
-import { fakeAccountLogin } from '../../services/api'
+import { jia } from '../../services/api'
 import { Router, useRouter } from 'tarojs-router'
-
 import fullpage from '../../assets/fullpage.png'
+import moment from 'moment';
 
 
 
@@ -19,19 +19,34 @@ const now = new Date(),
   date = now.getDate()
 
 let Jia = (props) => {
+  const { params } = useRouter();
   let { global } = props;
   let { theme } = global.global;
-
-
-  const { params, data } = useRouter();
+  let [data, setdata] = useState([]);
   const [state, setstate] = useState({
     show: false,
-    params: {}
+    params: {
+      id: params.id,
+      startDate: moment().add("day",-6).format("YYYY-MM-DD"),
+      endDate: moment().format("YYYY-MM-DD") 
+    },
+    tooltip:{}
+  });
+
+  
+  const { run, loading } = useRequest(jia, {
+    manual: true,
+    onSuccess: (result, params) => {
+      setdata(result.data.dataList);
+    },
   });
 
   useEffect(() => {
-    //Taro.setNavigationBarTitle({ title: params.name })
-  }, [state])
+    run(state.params)
+  }, [state.params]);
+
+
+
 
 
   return <View className='column' style={{ height: "100%", paddingTop: wx.getSystemInfoSync().statusBarHeight }}>
@@ -46,13 +61,20 @@ let Jia = (props) => {
           <View className="center"
             style={{ width: wx.getSystemInfoSync().windowWidth, height: wx.getSystemInfoSync().windowHeight, overflow: "hidden" }}>
 
-            <LineChart theme={theme}
-              emit={(params) => {
+            <LineChart 
+              theme={theme}
+              data={{
+                yAxis:data?data.map(it=>it.value):[],
+                xAxis:data?data.map(it=>it.date):[],
+              }}
+              emit={(tooltip) => {
                 setstate({
                   ...state,
-                  params: params[0]
+                  tooltip: tooltip[0]
                 })
-              }} reverse={true} style={{
+              }} 
+              reverse={true} 
+              style={{
                 width: wx.getSystemInfoSync().windowWidth - 70,
                 height: wx.getSystemInfoSync().windowHeight - 6,
                 marginLeft: 6,
@@ -61,8 +83,8 @@ let Jia = (props) => {
             </LineChart>
             <View className="center" style={{ padding: 12, width: 32, backgroundColor: "#f9f9f9", height: "100%", flexDirection: "column" }}>
               <View style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                <Text style={{ transform: "rotate(90deg)", marginBottom: "30vh" }}>{state.params?.name ? state.params?.name : "时间"}</Text>
-                <Text style={{ transform: "rotate(90deg)" }}>{state.params?.value ? state.params?.value : "占比"}</Text>
+                <Text style={{ transform: "rotate(90deg)", marginBottom: "30vh",width:200 }}>{state.tooltip?.name ? state.tooltip?.name : "时间"}</Text>
+                <Text style={{ transform: "rotate(90deg)" }}>{state.tooltip?.value ? state.tooltip?.value+"%" : "占比"}</Text>
               </View>
               <View style={{ paddingBottom: 24 }}>
                 <AtIcon value="close" size={18} onClick={() => {
@@ -102,8 +124,11 @@ let Jia = (props) => {
                 }
                 setstate({
                   ...state,
-                  start: state?.value?.start,
-                  end: state?.value?.end,
+                  params:{
+                    ...state.params,
+                    startDate:state?.value?.start,
+                    endDate: state?.value?.end,
+                  },
                   show: false
                 })
               }}>确定</AtButton>
@@ -142,13 +167,12 @@ let Jia = (props) => {
             show: true
           })
         }}>
-
           {
-            state.start ? state.start : "开始日期"
+            state.params.startDate ? state.params.startDate : "开始日期"
           }
           <Text style={{ margin: "0 6px" }}>至</Text>
           {
-            state.end ? state.end : "结束日期"
+            state.params.endDate ? state.params.endDate : "结束日期"
           }
         </Text>
         <Image src={fullpage} style={{ width: 16, height: 16 }} onClick={() => {
@@ -160,14 +184,19 @@ let Jia = (props) => {
         }}></Image>
       </View>
       <View className={"spacebt " + theme.bgclass + "light"} style={{ padding: 16, marginBottom: 12, color: "#000" }}>
-        <Text>{state.params?.name ? state.params?.name : "时间"}</Text>
-        <Text>{state.params?.value ? state.params?.value : "占比"}</Text>
+        <Text>{state.tooltip?.name ? state.tooltip?.name : "时间"}</Text>
+        <Text>{state.tooltip?.value ? state.tooltip?.value+"%" : "占比"}</Text>
       </View>
       {
-        state.show ? null : <LineChart emit={(params) => {
+        state.show ? null : <LineChart 
+        data={{
+          yAxis:data?data.map(it=>it.value):[],
+          xAxis:data?data.map(it=>it.date):[],
+        }}
+        emit={(tooltip) => {
           setstate({
             ...state,
-            params: params[0]
+            tooltip: tooltip[0]
           })
         }} style={{ width: "100%", height: 200 }} theme={theme}></LineChart>
       }

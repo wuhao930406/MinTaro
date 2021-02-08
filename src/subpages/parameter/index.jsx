@@ -35,8 +35,9 @@ let Parameter = (props) => {
   let res = data?.data?.dataList
 
 
-  return <View className='column' style={{ height: "100%", paddingTop: wx.getSystemInfoSync().statusBarHeight }}>
-    <View style={{ transform: "scale(1)", paddingTop: "50PX" }}>
+  return <View className='column' style={{ height: "100vh", overflow:"hidden" }}>
+    <View style={{height:wx.getSystemInfoSync().statusBarHeight,width:"100%"}}></View>
+    <View style={{ transform: "scale(1)", paddingTop: "50PX", height: "100%", overflow: "hidden", display: "flex", flexDirection: "column" }}>
       <AtNavBar
         onClickLeftIcon={() => {
           Router.back();
@@ -48,7 +49,7 @@ let Parameter = (props) => {
         leftIconType="chevron-left"
         border={false}
       />
-      <View className="spacebt" style={{
+      {/* <View className="spacebt" style={{
         padding: "12PX 24rpx",
         backgroundColor: "#f9f9f9",
         fontSize: 14,
@@ -80,24 +81,26 @@ let Parameter = (props) => {
           style={{ marginLeft: 12, padding: "16rpx 24rpx", color: state.type == "time" ? theme.primaryColor : "#333" }}>
           <Image src={sort} style={{ width: 16, height: 16, opacity: 0.4 }}></Image> 按时间
           </View>
-      </View>
+      </View> */}
 
-      <AtList>
+      <View style={{ flex: 1,overflow:"auto" }}>
+
+        <AtList>
+          {
+            res && res.map((it, i) => <AtListItem key={i} hasBorder={false}
+              title={it?.collectParam}
+              note={it?.collectStatus?.time}
+              extraText={it?.collectStatus?.collectStatusName}
+            />)
+          }
+        </AtList>
         {
-          res && res.map((it, i) => <AtListItem key={i} hasBorder={false}
-            title={it?.collectParam}
-            note={it?.status?.time}
-            extraText={it?.status?.statusName}
-          />)
+          (res && res.length == 0) && <View className={"center " + theme.bgclass + "lights"} style={{ width: "100%", height: "25vh" }}>
+            <Text className={theme.textclass}> 暂无数据 </Text>
+          </View>
         }
-      </AtList>
-      {
-       ( res&&res.length==0 )&& <View className={"center "+theme.bgclass+"lights"} style={{width:"100%",height:"25vh"}}>
-          <Text className={theme.textclass}> 暂无数据 </Text>
-        </View>
-      }
+      </View>
     </View>
-
 
   </View>
 }

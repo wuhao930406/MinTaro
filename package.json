@@ -27,7 +27,7 @@
     "dev:qq": "npm run build:qq -- --watch",
     "dev:jd": "npm run build:jd -- --watch",
     "dev:quickapp": "npm run build:quickapp -- --watch",
-    "watch":"set NODE_ENV=production && taro build --type weapp --watch"
+    "watch": "set NODE_ENV=production && taro build --type weapp --watch"
   },
   "browserslist": [
     "last 3 versions",
@@ -45,6 +45,7 @@
     "ahooks": "^2.9.4",
     "echarts-taro3-react": "^1.0.12",
     "lodash": "4.17.15",
+    "moment": "^2.29.1",
     "react": "^16.10.0",
     "react-dom": "^16.10.0",
     "remax-dva": "^2.1.0",

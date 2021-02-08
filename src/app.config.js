@@ -1,6 +1,7 @@
 export default {
   pages: [
     'pages/index/index',
+    
   ],
   subpackages: [
     {
@@ -8,7 +9,9 @@ export default {
       "pages": [
         "detail/index",
         "jia/index",//稼动率
-        "parameter/index"
+        "parameter/index",//全部参数
+        "ratio/index",//效率分析
+        "history/index",//历史故障
       ]
     }
   ],

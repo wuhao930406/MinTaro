@@ -1,6 +1,6 @@
 import request from '../utils/request';
 
-const iport = 'http://172.21.3.128:8040';
+const iport = 'http://172.21.3.20:8040';
 
 //扫码鉴权保存用户
 export async function usersave(params) {
@@ -62,9 +62,30 @@ export async function deviceparams(params) {
 }
 
 
+//设备参数
+export async function ratio(params) {
+  return request(iport+'/ngic-eiu/umEiuUserEquipment/queryEquipmentEfficiencyAnalysisById', {
+    method: 'POST',
+    data: params,
+  });
+}
 
 
+//设备参数
+export async function history(params) {
+  return request(iport+'/ngic-eiu/umEiuUserEquipment/queryEquipmentHistoryFaultById', {
+    method: 'POST',
+    data: params,
+  });
+}
 
+//设备稼动率
+export async function jia(params) {
+  return request(iport+'/ngic-eiu/umEiuUserEquipment/queryEquipmentUtilizateById', {
+    method: 'POST',
+    data: params,
+  });
+}
 
 
 

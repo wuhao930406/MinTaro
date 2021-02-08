@@ -103,13 +103,19 @@ let Index = ({ global, dispatch }) => {
       <View id={id} style={{ overflow: "hidden", padding: 5 }} onClick={() => {
         Taro.scanCode({
           complete: (res) => {
-            console.log(res)
-            addevice({ gatewayInfoId: "2020120234441744172" }).then(res => {
+            // addevice({ gatewayInfoId: res.result }).then(res => {
+            //   if (res.code == "0000") {
+            //     run({});
+            //   }
+            // })
+          },
+          success:(res)=>{
+            addevice({ gatewayInfoId: res.result }).then(res => {
               if (res.code == "0000") {
                 run({});
               }
             })
-          },
+          }
         })
       }}>
         <View className={theme.type == "theme1" ? theme.bgclass + "light center" : "center"} style={{
@@ -223,7 +229,7 @@ let Index = ({ global, dispatch }) => {
                 {rowData.equipmentName}
               </Text>
               <Text style={{ fontSize: 14, color: "#9d9d9d" }}>
-                <Text style={{ color: Object.values(status)[rowData.status] }}>{rowData.statusName}</Text> {rowData.equipmentModelName}
+                <Text style={{ color: Object.values(status)[rowData.collectStatus] }}>{rowData.collectStatusName}</Text> {rowData.equipmentModelName}
               </Text>
             </View>
           </View>
@@ -255,7 +261,9 @@ let Index = ({ global, dispatch }) => {
         type='primary'
         className="text"
         onGetUserInfo={() => {
-          GetUserInfo()
+          GetUserInfo(() => {
+            run({})
+          })
         }}>
         您好，{userinfo.nickName}
       </AtButton>
@@ -299,15 +307,3 @@ let Index = ({ global, dispatch }) => {
 export default connect((global) => ({
   global
 }))(Index)
-
-
-/* <Span><AtButton onClick={() => {
-    Taro.showToast({
-      title: "test",
-      icon: 'none'
-    })
-
-    //run({pageIndex:1});
-
-    Router.navigate({ url: '/pages/detail/index' }, { data: [1, 2, 3, 4],params: { id: 11 } })
-  }}>跳转</AtButton> </Span> */

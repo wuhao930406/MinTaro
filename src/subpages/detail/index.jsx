@@ -72,7 +72,7 @@ let Detail = (props) => {
         <View className="spacebt">
           <View className='sptxt column' style={{ flex: 1 }}>
             <Text>
-              {res?.statusName}
+              {res?.collectStatusName}
             </Text>
             <Text>
               {res?.productDate ? res?.productDate : "-"}
@@ -97,7 +97,13 @@ let Detail = (props) => {
       </View>
 
       <View className="center" style={{ flexWrap: "wrap", marginTop: 10 }}>
-        <View className='spacebt card'>
+        <View className='spacebt card' onClick={() => {
+          Router.navigate({
+            url: '/subpages/ratio/index'
+          },{
+              params: { id: params.id }
+          })
+        }}>
           <Text>
             效率分析
           </Text>
@@ -105,7 +111,13 @@ let Detail = (props) => {
 
         </View>
         <View style={{ width: 12, height: 12 }}></View>
-        <View className='spacebt card'>
+        <View className='spacebt card' onClick={() => {
+          Router.navigate({
+            url: '/subpages/history/index'
+          },{
+              params: { id: params.id }
+          })
+        }}>
           <Text>
             历史故障
           </Text>
@@ -114,20 +126,20 @@ let Detail = (props) => {
       </View>
 
       <View className="center" style={{ flexWrap: "wrap", marginTop: 10 }}>
-        <View className='spacebt card'>
+        {/* <View className='spacebt card'>
           <Text>
             MTBF
           </Text>
           <Image src={line} style={{ width: 16, height: 16 }}></Image>
 
         </View>
-        <View style={{ width: 12, height: 12 }}></View>
+        <View style={{ width: 12, height: 12 }}></View> */}
         <View className='spacebt card' onClick={() => {
           Router.navigate({
             url: '/subpages/jia/index'
           },
             {
-              params: { id: 11, name: "强大设备" }
+              params: { id: params.id }
             })
 
         }}>
