@@ -272,7 +272,7 @@ let Index = ({ global, dispatch }) => {
       </View>
     </View>
     <VirtualList
-      height={wx.getSystemInfoSync().screenHeight-100}
+      height={wx.getSystemInfoSync().screenHeight}
       width='100%'
       scrollY
       scrollWithAnimation
