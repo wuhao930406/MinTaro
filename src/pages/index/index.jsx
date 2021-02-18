@@ -130,12 +130,12 @@ let Index = ({ global, dispatch }) => {
       </View>
     ) : (
         <View id={id} style={{ overflow: "hidden", padding: 5 }} onClick={(e) => {
-          Router.navigate({ url: '/subpages/detail/index' }, { params: { id: rowData.id, name: rowData.equipmentName } })
+          Router.navigate({ url: '/subpages/detail/index' }, { params: { id: rowData?.id, name: rowData?.equipmentName } })
         }}>
           <View style={{ backgroundColor: "#FFF", height: 130, position: "relative", borderRadius: 12, overflow: "hidden" }}>
             {
-              rowData.pictureUrl ?
-                <View className='img' style={{ margin: "12px 0px 12px 12px", backgroundImage: `url(${rowData.pictureUrl})` }} /> :
+              rowData?.pictureUrl ?
+                <View className='img' style={{ margin: "12px 0px 12px 12px", backgroundImage: `url(${rowData?.pictureUrl})` }} /> :
                 <View style={{ margin: "12px 0px 12px 12px" }} >
                   <AtIcon value='image' className={theme.textclass} size='48'></AtIcon>
                 </View>
@@ -185,11 +185,11 @@ let Index = ({ global, dispatch }) => {
                     <View style={{ width: 1, height: 18, backgroundColor: "#f0f0f0" }}></View>
                     <View className="center" style={{ flex: 1, flexDirection: "column" }} onClick={() => {
                       Taro.showModal({
-                        title: "删除设备？",
-                        content: "是否删除" + rowData.equipmentName,
+                        title: "确认删除？",
+                        content: "此网关已配置，重新配置后，原数据将清空。",
                         success: function (res) {
                           if (res.confirm) {
-                            terminatedevice({ id: rowData.id }).then(res => {
+                            terminatedevice({ id: rowData?.id }).then(res => {
                               if (res.code == "0000") {
                                 run({});
                               }
@@ -207,7 +207,7 @@ let Index = ({ global, dispatch }) => {
 
               <View style={{ width: "100%", height: 48, backgroundColor: "#f9f9f9" }} className="center" onClick={() => {
                 if (action == "edit") {
-                  changedevicename({ id: rowData.id, equipmentName: value }).then(res => {
+                  changedevicename({ id: rowData?.id, equipmentName: value }).then(res => {
                     if (res.code == "0000") {
                       run({});
                     }
@@ -226,10 +226,10 @@ let Index = ({ global, dispatch }) => {
 
             <View className='column' style={{ marginLeft: 12 }}>
               <Text style={{ fontSize: 16, fontWeight: 500, color: "#959595", marginBottom: 4 }}>
-                {rowData.equipmentName}
+                {rowData?.equipmentName}
               </Text>
               <Text style={{ fontSize: 14, color: "#9d9d9d" }}>
-                <Text style={{ color: Object.values(status)[rowData.collectStatus] }}>{rowData.collectStatusName}</Text> {rowData.equipmentModelName}
+                <Text style={{ color: Object.values(status)[rowData?.collectStatus] }}>{rowData?.collectStatusName}</Text> {rowData?.equipmentModelName}
               </Text>
             </View>
           </View>
@@ -272,7 +272,7 @@ let Index = ({ global, dispatch }) => {
       </View>
     </View>
     <VirtualList
-      height={500}
+      height={wx.getSystemInfoSync().screenHeight-100}
       width='100%'
       scrollY
       scrollWithAnimation
@@ -285,7 +285,6 @@ let Index = ({ global, dispatch }) => {
       itemCount={state.data.length} /*  渲染列表的长度 */
       itemSize={140}
       refresherTriggered={state.refreshing}
-      position="relative"
       onRefresherRefresh={() => {
         setstate({
           ...state,
@@ -296,8 +295,6 @@ let Index = ({ global, dispatch }) => {
       scrollTop={scrollTop}
       lowerThreshold={Threshold}
       upperThreshold={Threshold}
-      onScrollToLower={onScrollToLower}
-      onScroll={onScroll}
     >
       {Row}
     </VirtualList>
