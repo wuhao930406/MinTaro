@@ -96,10 +96,10 @@ let Index = ({ global, dispatch }) => {
     const [action, setaction] = useState(false),
       [value, setvalue] = useState(null);
     return index == 0 ? (
-      <View className='at-col at-col-6' style={{ overflow: "hidden", padding: 5,height:140 }} onClick={() => {
+      <View className='at-col at-col-6' style={{ overflow: "hidden", padding: 5, height: 140 }} onClick={() => {
         Taro.scanCode({
           complete: (res) => {
-           
+
           },
           success: (res) => {
             addevice({ gatewayInfoId: res.result }).then(res => {
@@ -121,7 +121,7 @@ let Index = ({ global, dispatch }) => {
         </View>
       </View>
     ) : (
-        <View className='at-col  at-col-6' style={{ overflow: "hidden", padding: 5,height:140  }} onClick={(e) => {
+        <View className='at-col  at-col-6' style={{ overflow: "hidden", padding: 5, height: 140 }} onClick={(e) => {
           Router.navigate({ url: '/subpages/detail/index' }, { params: { id: rowData?.id, name: rowData?.equipmentName } })
         }}>
           <View style={{ backgroundColor: "#FFF", height: 130, position: "relative", borderRadius: 12, overflow: "hidden" }}>
@@ -217,7 +217,7 @@ let Index = ({ global, dispatch }) => {
             </View>
 
             <View className='column' style={{ marginLeft: 12 }}>
-              <Text style={{ fontSize: 16, fontWeight: 500, color: "#959595", marginBottom: 4,textOverflow:"ellipsis",whiteSpace:'nowrap',overflow:"hidden" }}>
+              <Text style={{ fontSize: 16, fontWeight: 500, color: "#959595", marginBottom: 4, textOverflow: "ellipsis", whiteSpace: 'nowrap', overflow: "hidden" }}>
                 {rowData?.equipmentName}
               </Text>
               <Text style={{ fontSize: 14, color: "#9d9d9d" }}>
@@ -264,9 +264,7 @@ let Index = ({ global, dispatch }) => {
       </View>
     </View>
     <ScrollView
-      height={wx.getSystemInfoSync().screenHeight}
       width='100%'
-      className='at-row at-row--wrap'
       scrollY
       scrollWithAnimation
       enableBackToTop
@@ -275,6 +273,7 @@ let Index = ({ global, dispatch }) => {
       refresherDefaultStyle="white"
       refresherBackground="transparent"
       refresherTriggered={state.refreshing}
+      style={{overflow:"auto"}}
       onRefresherRefresh={() => {
         setstate({
           ...state,
@@ -286,11 +285,12 @@ let Index = ({ global, dispatch }) => {
       lowerThreshold={Threshold}
       upperThreshold={Threshold}
     >
-      {
-        state.data.map((it, i) => {
-          return <Row index={i} rowData={it}></Row>
-        })
-      }
+      <View className='at-row at-row--wrap'>
+        {
+          state.data.map((it, i) => {
+            return <Row index={i} rowData={it}></Row>
+          })
+        }</View>
     </ScrollView>
   </View>
 
