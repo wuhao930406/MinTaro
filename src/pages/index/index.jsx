@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState } from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text, CoverImage } from '@tarojs/components'
+import { View, Text, ScrollView } from '@tarojs/components'
 import { AtButton, AtAvatar, AtIcon, AtActivityIndicator, AtInput } from 'taro-ui'
 import VirtualList from '@tarojs/components/virtual-list'
 import './index.less'
@@ -16,7 +16,6 @@ const status = {
   "2": "#ff9e32",
   "3": "#ff4d30",
 }
-const src = "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=387639067,1599589691&fm=26&gp=0.jpg"
 
 
 let Index = ({ global, dispatch }) => {
@@ -43,8 +42,8 @@ let Index = ({ global, dispatch }) => {
 
   useEffect(() => {
     GetUserInfo(() => {
-      run({})
     });
+    run({})
   }, [])
 
   function GetUserInfo(fn) {
@@ -93,23 +92,16 @@ let Index = ({ global, dispatch }) => {
 
 
 
-  const Row = React.memo(({ id, index, style, data }) => {
+  const Row = React.memo(({ index, rowData }) => {
     const [action, setaction] = useState(false),
       [value, setvalue] = useState(null);
-    let rowData = data[index];
-
-
     return index == 0 ? (
-      <View id={id} style={{ overflow: "hidden", padding: 5 }} onClick={() => {
+      <View className='at-col at-col-6' style={{ overflow: "hidden", padding: 5,height:140 }} onClick={() => {
         Taro.scanCode({
           complete: (res) => {
-            // addevice({ gatewayInfoId: res.result }).then(res => {
-            //   if (res.code == "0000") {
-            //     run({});
-            //   }
-            // })
+           
           },
-          success:(res)=>{
+          success: (res) => {
             addevice({ gatewayInfoId: res.result }).then(res => {
               if (res.code == "0000") {
                 run({});
@@ -129,7 +121,7 @@ let Index = ({ global, dispatch }) => {
         </View>
       </View>
     ) : (
-        <View id={id} style={{ overflow: "hidden", padding: 5 }} onClick={(e) => {
+        <View className='at-col  at-col-6' style={{ overflow: "hidden", padding: 5,height:140  }} onClick={(e) => {
           Router.navigate({ url: '/subpages/detail/index' }, { params: { id: rowData?.id, name: rowData?.equipmentName } })
         }}>
           <View style={{ backgroundColor: "#FFF", height: 130, position: "relative", borderRadius: 12, overflow: "hidden" }}>
@@ -159,7 +151,7 @@ let Index = ({ global, dispatch }) => {
               }}>
               {
                 action == 'edit' ?
-                  <View className="center" style={{ flex: 1,position:"relative",paddingTop:34 }}>
+                  <View className="center" style={{ flex: 1, position: "relative", paddingTop: 34 }}>
                     <AtInput
                       name='value'
                       type='text'
@@ -169,7 +161,7 @@ let Index = ({ global, dispatch }) => {
                         setvalue(val)
                       }}
                     />
-                    <View className='center' style={{ width: 40, height: 40,position:"absolute",top:0,right:0 }} onClick={()=>{
+                    <View className='center' style={{ width: 40, height: 40, position: "absolute", top: 0, right: 0 }} onClick={() => {
                       setaction(true)
                     }}>
                       <AtIcon value='close' size='16'></AtIcon>
@@ -225,7 +217,7 @@ let Index = ({ global, dispatch }) => {
             </View>
 
             <View className='column' style={{ marginLeft: 12 }}>
-              <Text style={{ fontSize: 16, fontWeight: 500, color: "#959595", marginBottom: 4 }}>
+              <Text style={{ fontSize: 16, fontWeight: 500, color: "#959595", marginBottom: 4,textOverflow:"ellipsis",whiteSpace:'nowrap',overflow:"hidden" }}>
                 {rowData?.equipmentName}
               </Text>
               <Text style={{ fontSize: 14, color: "#9d9d9d" }}>
@@ -271,9 +263,10 @@ let Index = ({ global, dispatch }) => {
         <AtActivityIndicator isOpened={loading}></AtActivityIndicator>
       </View>
     </View>
-    <VirtualList
+    <ScrollView
       height={wx.getSystemInfoSync().screenHeight}
       width='100%'
+      className='at-row at-row--wrap'
       scrollY
       scrollWithAnimation
       enableBackToTop
@@ -281,9 +274,6 @@ let Index = ({ global, dispatch }) => {
       refresherEnabled
       refresherDefaultStyle="white"
       refresherBackground="transparent"
-      itemData={state.data} /* 渲染列表的数据 */
-      itemCount={state.data.length} /*  渲染列表的长度 */
-      itemSize={140}
       refresherTriggered={state.refreshing}
       onRefresherRefresh={() => {
         setstate({
@@ -296,8 +286,12 @@ let Index = ({ global, dispatch }) => {
       lowerThreshold={Threshold}
       upperThreshold={Threshold}
     >
-      {Row}
-    </VirtualList>
+      {
+        state.data.map((it, i) => {
+          return <Row index={i} rowData={it}></Row>
+        })
+      }
+    </ScrollView>
   </View>
 
 }
