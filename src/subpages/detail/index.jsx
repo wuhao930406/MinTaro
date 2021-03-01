@@ -51,7 +51,7 @@ let Detail = (props) => {
 
     {
       res?.pictureUrl ?
-        <View className="bgimg" style={{ width: "100%", height: "28vh", backgroundImage: "url(" + res?.pictureUrl + ")" }}>
+        <View className="bgimg" style={{ width: "100%", height: "28vh", backgroundImage: "url(http://172.21.3.2" + res?.pictureUrl + ")" }}>
         </View> :
         <View className={"bgimg center " + theme.bgclass + "light"} style={{ width: "100%", height: "28vh" }} >
           <AtIcon value='image' className={theme.textclass} size='64'></AtIcon>

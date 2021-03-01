@@ -127,7 +127,7 @@ let Index = ({ global, dispatch }) => {
           <View style={{ backgroundColor: "#FFF", height: 130, position: "relative", borderRadius: 12, overflow: "hidden" }}>
             {
               rowData?.pictureUrl ?
-                <View className='img' style={{ margin: "12px 0px 12px 12px", backgroundImage: `url(${rowData?.pictureUrl})` }} /> :
+                <View className='img' style={{ margin: "12px 0px 12px 12px", backgroundImage: `url(http://172.21.3.2${rowData?.pictureUrl})` }} /> :
                 <View style={{ margin: "12px 0px 12px 12px" }} >
                   <AtIcon value='image' className={theme.textclass} size='48'></AtIcon>
                 </View>
