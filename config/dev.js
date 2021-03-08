@@ -30,17 +30,6 @@ module.exports = {
   },
   mini: {},
   h5: {
-    esnextModules: ['taro-ui'],
-    webpackChain (chain, webpack) {
-      chain.merge({
-        proxy:{ 
-          '/taro/': {
-            target: 'http://172.21.3.128:8040/',
-            changeOrigin: true,
-            pathRewrite: { '^/taro': '' },
-          },
-        },
-      })
-    }
+
   }
 }

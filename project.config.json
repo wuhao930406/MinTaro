@@ -4,7 +4,7 @@
   "description": "物联网Iot小程序",
   "appid": "wx8b45fd25d67eb76d",
   "setting": {
-    "urlCheck": true,
+    "urlCheck": false,
     "es6": false,
     "enhance": false,
     "postcss": false,

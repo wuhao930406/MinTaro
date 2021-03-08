@@ -29,13 +29,6 @@ module.exports = {
       }
     }
   },
-  proxy:{ 
-    '/api/': {
-      target: 'http://49.235.82.163:4000/mock/12/',
-      changeOrigin: true,
-      pathRewrite: { '^/api': '' },
-    },
-  },
   mini: {},
   h5: {
     /**

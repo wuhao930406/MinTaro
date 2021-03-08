@@ -1,6 +1,6 @@
 import request from '../utils/request';
 
-const iport = 'http://172.21.3.20:8040';
+const iport = 'https://www.nangaoyun.com/eiu/ngy';
 
 //扫码鉴权保存用户
 export async function usersave(params) {
