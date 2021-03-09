@@ -12,6 +12,7 @@ import chart from '../../assets/chart.png'
 import fault from '../../assets/fault.png'
 import line from '../../assets/line.png'
 import cpu from '../../assets/cpu.png'
+import { useMemo } from 'react'
 
 
 let Detail = (props) => {
@@ -24,8 +25,13 @@ let Detail = (props) => {
     return devicedetail({ id: params.id })
   });
 
-  let res = data?.data?.data
-  console.log(res)
+  let res = useMemo(()=>{
+    if(data){
+      return data?.data?.data
+    }else{
+      return {}
+    }
+  },[data]);
 
   useEffect(() => {
     //Taro.setNavigationBarTitle({ title: params.name })
@@ -51,7 +57,7 @@ let Detail = (props) => {
 
     {
       res?.pictureUrl ?
-        <View className="bgimg" style={{ width: "100%", height: "28vh", backgroundImage: "url(https://www.nangaoyun.com/eiu" + res?.pictureUrl + ")" }}>
+        <View className="bgimg" style={{ width: "100%", height: "28vh", backgroundImage: `url(https://www.nangaoyun.com/eiu${res?.pictureUrl})` }}>
         </View> :
         <View className={"bgimg center " + theme.bgclass + "light"} style={{ width: "100%", height: "28vh" }} >
           <AtIcon value='image' className={theme.textclass} size='64'></AtIcon>

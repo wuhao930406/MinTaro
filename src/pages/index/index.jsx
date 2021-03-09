@@ -18,6 +18,10 @@ const status = {
 }
 
 
+function getStorage(key) {
+  return Taro.getStorage({ key }).then(res => res.data).catch(() => '')
+}
+
 let Index = ({ global, dispatch }) => {
   let { theme } = global.global;
   const [state, setstate] = useState({
@@ -32,64 +36,68 @@ let Index = ({ global, dispatch }) => {
       setstate({
         ...state,
         refreshing: false,
-        data: [0, ...result.data.dataList]
+        data: [0, ...result?.data?.dataList]
       })
     },
   });
 
 
-  const [userinfo, setuser] = useState({});
+  const [userinfo, setuser] = useState({ nickName: "点我登录" });
 
   useEffect(() => {
     GetUserInfo(() => {
+      run({})
     });
-    run({})
   }, [])
 
-  function GetUserInfo(fn) {
-    Taro.login({
-      success: function (result) {
-        if (result.code) {
-          Taro.getUserInfo({
-            lang: "zh_CN",
-            success: function (res) {
-              let userInfo = res.userInfo,
-                iv = res.iv,
-                { nickName, avatarUrl, gender, country, province, city } = userInfo,
-                { code } = result;
-              setuser(userInfo);//设置登录人信息
+  async function GetUserInfo(fn) {
+    const token = await getStorage('token');
+    const curuserInfo = await getStorage('userInfo');
+    if (token && curuserInfo) {
+      setuser(JSON.parse(curuserInfo));
+      fn ? fn() : null;
+    } else {
+      Taro.login({
+        success: function (result) {
+          if (result.code) {
+            Taro.getUserInfo({
+              lang: "zh_CN",
+              success: function (res) {
+                let userInfo = res.userInfo,
+                  iv = res.iv,
+                  { nickName, avatarUrl, gender, country, province, city } = userInfo,
+                  { code } = result;
+                setuser(userInfo);//设置登录人信息
 
-              usersave({ nickName, avatarUrl, gender, country, province, city, code, iv }).then(response => {
                 Taro.setStorage({
-                  key: "token",
-                  data: response.data.openId
-                }).then(() => {
-                  //后端添加用户
-                  fn ? fn() : null
+                  key: "userinfo",
+                  data: JSON.stringify(userInfo)
                 })
-              })
-            },
-            fail: function (res) {
-              setuser({
-                nickName: "点我登录"
-              })
-            }
-          })
 
-        } else {
-          console.log('登录失败！' + res.errMsg)
+                usersave({ nickName, avatarUrl, gender, country, province, city, code, iv }).then(response => {
+                  Taro.setStorage({
+                    key: "token",
+                    data: response?.data?.openId
+                  }).then(() => {
+                    //后端添加用户
+                    fn ? fn() : null
+                  })
+                })
+              },
+              fail: function (res) {
+                setuser({
+                  nickName: "点我登录"
+                })
+              }
+            })
+
+          } else {
+            console.log('登录失败！' + res.errMsg)
+          }
         }
-      }
-    })
-
+      })
+    }
   }
-
-  let onScrollToLower = () => {
-  }
-
-  let onScroll = (e) => {
-  }
-
 
 
   const Row = React.memo(({ index, rowData }) => {
@@ -273,7 +281,7 @@ let Index = ({ global, dispatch }) => {
       refresherDefaultStyle="white"
       refresherBackground="transparent"
       refresherTriggered={state.refreshing}
-      style={{overflow:"auto"}}
+      style={{ overflow: "auto" }}
       onRefresherRefresh={() => {
         setstate({
           ...state,
